@@ -1,22 +1,16 @@
 import 'package:flutter/material.dart';
-import 'chat_page.dart'; // Import the ChatPage
+import 'bmi_home.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(BMICalculatorApp());
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
+class BMICalculatorApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Flutter Chat App',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-      ),
-      home: ChatPage(), 
+      home: HomePage(),
     );
   }
 }
