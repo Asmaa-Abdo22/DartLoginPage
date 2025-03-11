@@ -33,160 +33,145 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Color(0xFF0A0E21),
       appBar: AppBar(
         title: Text("BMI CALCULATOR"),
-        backgroundColor: const Color.fromARGB(255, 30, 30, 30),
+        backgroundColor: Color(0xFF0A0E21),
         titleTextStyle: TextStyle(color: Colors.white, fontSize: 20),
+        centerTitle: true,
       ),
       body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          SizedBox(height: 20), 
-          Row(
-            children: [
-              Expanded(
-                child: GestureDetector(
-                  onTap: () => setState(() => isMale = true),
-                  child: Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: isMale ? Colors.blue[800] : Colors.grey[600],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      children: [
-                        Icon(Icons.male, size: 80, color: Colors.white),
-                        Text("MALE", style: TextStyle(color: Colors.white)),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(width: 10),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () => setState(() => isMale = false),
-                  child: Container(
-                    padding: EdgeInsets.all(20),
-                    decoration: BoxDecoration(
-                      color: isMale ? Colors.grey[600] : Colors.pink[800],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Column(
-                      children: [
-                        Icon(Icons.female, size: 80, color: Colors.white),
-                        Text("FEMALE", style: TextStyle(color: Colors.white)),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(height: 20),
-
-          Container(
-            padding: EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: Colors.grey[800],
-              borderRadius: BorderRadius.circular(10),
-            ),
-            child: Column(
+          Expanded(
+            child: Row(
               children: [
-                Text("HEIGHT", style: TextStyle(color: Colors.white)),
-                Text(
-                  "${height.round()} cm",
-                  style: TextStyle(color: Colors.white, fontSize: 24),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => setState(() => isMale = true),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: isMale ? Color(0xFF1D1E33) : Color(0xFF111328),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      margin: EdgeInsets.all(10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.male, size: 80, color: Colors.white),
+                          Text("MALE", style: TextStyle(color: Colors.white)),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
-                Slider(
-                  value: height,
-                  min: 100,
-                  max: 220,
-                  onChanged: (value) => setState(() => height = value),
+                Expanded(
+                  child: GestureDetector(
+                    onTap: () => setState(() => isMale = false),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: isMale ? Color(0xFF111328) : Color(0xFF1D1E33),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      margin: EdgeInsets.all(10),
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(Icons.female, size: 80, color: Colors.white),
+                          Text("FEMALE", style: TextStyle(color: Colors.white)),
+                        ],
+                      ),
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
-          SizedBox(height: 20),
-
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[800],
-                    borderRadius: BorderRadius.circular(10),
+          Expanded(
+            child: Container(
+              decoration: BoxDecoration(
+                color: Color(0xFF1D1E33),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              margin: EdgeInsets.all(10),
+              padding: EdgeInsets.all(10),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text("HEIGHT", style: TextStyle(color: Colors.white)),
+                  Text("${height.round()} cm", style: TextStyle(color: Colors.white, fontSize: 24)),
+                  Slider(
+                    value: height,
+                    min: 100,
+                    max: 220,
+                    activeColor: Colors.pink,
+                    inactiveColor: Colors.grey,
+                    onChanged: (value) => setState(() => height = value),
                   ),
-                  child: Column(
-                    children: [
-                      Text("WEIGHT", style: TextStyle(color: Colors.white)),
-                      Text(
-                        "$weight",
-                        style: TextStyle(color: Colors.white, fontSize: 24),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.remove, color: Colors.white),
-                            onPressed: () => setState(() => weight--),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.add, color: Colors.white),
-                            onPressed: () => setState(() => weight++),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
+                ],
+              ),
+            ),
+          ),
+          Expanded(
+            child: Row(
+              children: [
+                Expanded(
+                  child: _buildCounterCard("WEIGHT", weight, () => setState(() => weight--), () => setState(() => weight++)),
                 ),
+                Expanded(
+                  child: _buildCounterCard("AGE", age, () => setState(() => age--), () => setState(() => age++)),
+                ),
+              ],
+            ),
+          ),
+          GestureDetector(
+            onTap: navigateToResult,
+            child: Container(
+              color: Color(0xFFEB1555),
+              width: double.infinity,
+              height: 80,
+              child: Center(
+                child: Text("CALCULATE", style: TextStyle(fontSize: 25, fontWeight: FontWeight.bold, color: Colors.white)),
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildCounterCard(String label, int value, VoidCallback decrement, VoidCallback increment) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color(0xFF1D1E33),
+        borderRadius: BorderRadius.circular(10),
+      ),
+      margin: EdgeInsets.all(10),
+      padding: EdgeInsets.all(10),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(label, style: TextStyle(color: Colors.white)),
+          Text("$value", style: TextStyle(color: Colors.white, fontSize: 24)),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              FloatingActionButton(
+                heroTag: "$label-",
+                onPressed: decrement,
+                child: Icon(Icons.remove, color: Colors.white),
+                backgroundColor: Color(0xFF4C4F5E),
+                mini: true,
               ),
               SizedBox(width: 10),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(20),
-                  decoration: BoxDecoration(
-                    color: Colors.grey[800],
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  child: Column(
-                    children: [
-                      Text("AGE", style: TextStyle(color: Colors.white)),
-                      Text(
-                        "$age",
-                        style: TextStyle(color: Colors.white, fontSize: 24),
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          IconButton(
-                            icon: Icon(Icons.remove, color: Colors.white),
-                            onPressed: () => setState(() => age--),
-                          ),
-                          IconButton(
-                            icon: Icon(Icons.add, color: Colors.white),
-                            onPressed: () => setState(() => age++),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
+              FloatingActionButton(
+                heroTag: "$label+",
+                onPressed: increment,
+                child: Icon(Icons.add, color: Colors.white),
+                backgroundColor: Color(0xFF4C4F5E),
+                mini: true,
               ),
             ],
-          ),
-          SizedBox(height: 20),
-
-          ElevatedButton(
-            onPressed: navigateToResult,
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 10, 183, 15),
-              padding: EdgeInsets.symmetric(horizontal: 50, vertical: 15),
-            ),
-            child: Text(
-              "CALCULATE",
-              style: TextStyle(color: const Color.fromARGB(255, 255, 255, 255), fontSize: 20),
-            ),
           ),
         ],
       ),
