@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
-import 'bmi_home.dart';
+import 'chat_page.dart'; // استيراد صفحة المحادثات
 
 void main() {
-  runApp(BMICalculatorApp());
+  runApp(MyApp());
 }
 
-class BMICalculatorApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: HomePage(),
+      home: ChatPage(),     
     );
   }
 }
